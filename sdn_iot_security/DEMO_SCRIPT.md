@@ -9,18 +9,18 @@
 1. Open PowerShell as Administrator
 2. Navigate to project:
 ```
-cd "c:\Users\sadgi\OneDrive\Desktop\CN Project\sdn_iot_security"
+cd "c:\Users\user_name\OneDrive\Desktop\CN Project\sdn_iot_security"
 ```
 3. Activate Python venv:
 ```
-& "c:\Users\sadgi\OneDrive\Desktop\CN Project\venv\Scripts\Activate.ps1"
+& "c:\Users\user_name\OneDrive\Desktop\CN Project\venv\Scripts\Activate.ps1"
 ```
 
 ### On Ubuntu WSL:
 1. Open 3 separate Ubuntu terminal windows
 2. In each terminal run:
 ```
-cd "/mnt/c/Users/sadgi/OneDrive/Desktop/CN Project/sdn_iot_security"
+cd "/mnt/c/Users/user_name/OneDrive/Desktop/CN Project/sdn_iot_security"
 ```
 3. In one terminal, verify OS-Ken is installed:
 ```
@@ -161,7 +161,7 @@ Recovered: b'WSL SDN test payload'
 **Window: Ubuntu Terminal 1**
 **Command:**
 ```
-cd "/mnt/c/Users/sadgi/OneDrive/Desktop/CN Project/sdn_iot_security"
+cd "/mnt/c/Users/user_name/OneDrive/Desktop/CN Project/sdn_iot_security"
 osken-manager ryu_multipath_controller.py
 ```
 
@@ -185,7 +185,7 @@ instantiating app ryu_multipath_controller of MultipathController
 **Window: Ubuntu Terminal 2**
 **Command:**
 ```
-cd "/mnt/c/Users/sadgi/OneDrive/Desktop/CN Project/sdn_iot_security"
+cd "/mnt/c/Users/user_name/OneDrive/Desktop/CN Project/sdn_iot_security"
 sudo python3 sdn_topology.py
 ```
 
@@ -228,7 +228,7 @@ Results: 0% dropped (2/2 received)
 **Window: Ubuntu Terminal 3 (or type in Mininet)**
 **Command in Mininet prompt:**
 ```
-h2 bash -lc 'cd /mnt/c/Users/sadgi/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 udp_file_receiver.py --bind-host 0.0.0.0 --port 6000 --out /tmp/received_stego_sdn.wav --timeout 30 --metrics-file /tmp/transport_metrics.csv'
+h2 bash -lc 'cd /mnt/c/Users/user_name/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 udp_file_receiver.py --bind-host 0.0.0.0 --port 6000 --out /tmp/received_stego_sdn.wav --timeout 30 --metrics-file /tmp/transport_metrics.csv'
 ```
 
 **Expected Output:**
@@ -247,7 +247,7 @@ Listening on 0.0.0.0:6000 ...
 
 **Command in Mininet prompt (same terminal, new line):**
 ```
-h1 bash -lc 'cd /mnt/c/Users/sadgi/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 udp_file_sender.py --host 10.0.0.2 --port 6000 --file stego_sdn.wav --chunk-size 1024 --metrics-file /tmp/transport_metrics.csv'
+h1 bash -lc 'cd /mnt/c/Users/user_name/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 udp_file_sender.py --host 10.0.0.2 --port 6000 --file stego_sdn.wav --chunk-size 1024 --metrics-file /tmp/transport_metrics.csv'
 ```
 
 **Expected Output (appears in seconds):**
@@ -281,7 +281,7 @@ Received file -> /tmp/received_stego_sdn.wav (packets=175, chunks=173, elapsed=X
 
 **Command in Mininet prompt:**
 ```
-h2 bash -lc 'cd /mnt/c/Users/sadgi/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 receiver.py --stego-file /tmp/received_stego_sdn.wav --key-file shared_key.bin --replay-state /tmp/replay_state_sdn.json'
+h2 bash -lc 'cd /mnt/c/Users/user_name/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 receiver.py --stego-file /tmp/received_stego_sdn.wav --key-file shared_key.bin --replay-state /tmp/replay_state_sdn.json'
 ```
 
 **MOST IMPORTANT - Expected Output:**

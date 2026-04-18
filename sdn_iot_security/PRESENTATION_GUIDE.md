@@ -104,23 +104,23 @@ Presentation Guide - SDN IoT Security Project
 
 9) Final live demo commands (Ubuntu WSL)
 - Terminal 1:
-  cd "/mnt/c/Users/sadgi/OneDrive/Desktop/CN Project/sdn_iot_security"
+  cd "/mnt/c/Users/user_name/OneDrive/Desktop/CN Project/sdn_iot_security"
   osken-manager ryu_multipath_controller.py
 
 - Terminal 2:
-  cd "/mnt/c/Users/sadgi/OneDrive/Desktop/CN Project/sdn_iot_security"
+  cd "/mnt/c/Users/user_name/OneDrive/Desktop/CN Project/sdn_iot_security"
   sudo python3 sdn_topology.py
   # in Mininet
   pingall
 
 - Terminal 3:
-  cd "/mnt/c/Users/sadgi/OneDrive/Desktop/CN Project/sdn_iot_security"
+  cd "/mnt/c/Users/user_name/OneDrive/Desktop/CN Project/sdn_iot_security"
   python3 sender.py --message "WSL SDN test payload" --audio-in input.wav --audio-out stego_sdn.wav
 
 - In Mininet CLI:
-  h2 bash -lc 'cd /mnt/c/Users/sadgi/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 udp_file_receiver.py --bind-host 0.0.0.0 --port 6000 --out /tmp/received_stego_sdn.wav --timeout 30 --metrics-file /tmp/transport_metrics.csv'
-  h1 bash -lc 'cd /mnt/c/Users/sadgi/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 udp_file_sender.py --host 10.0.0.2 --port 6000 --file stego_sdn.wav --chunk-size 1024 --metrics-file /tmp/transport_metrics.csv'
-  h2 bash -lc 'cd /mnt/c/Users/sadgi/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 receiver.py --stego-file /tmp/received_stego_sdn.wav --key-file shared_key.bin --replay-state /tmp/replay_state_sdn.json'
+  h2 bash -lc 'cd /mnt/c/Users/user_name/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 udp_file_receiver.py --bind-host 0.0.0.0 --port 6000 --out /tmp/received_stego_sdn.wav --timeout 30 --metrics-file /tmp/transport_metrics.csv'
+  h1 bash -lc 'cd /mnt/c/Users/user_name/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 udp_file_sender.py --host 10.0.0.2 --port 6000 --file stego_sdn.wav --chunk-size 1024 --metrics-file /tmp/transport_metrics.csv'
+  h2 bash -lc 'cd /mnt/c/Users/user_name/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 receiver.py --stego-file /tmp/received_stego_sdn.wav --key-file shared_key.bin --replay-state /tmp/replay_state_sdn.json'
 
 10) Expected outputs to show in presentation
 - Recovered: b"WSL SDN test payload"

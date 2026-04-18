@@ -14,7 +14,7 @@ A) One-time setup in Ubuntu (WSL)
 
 B) Go to project folder in WSL
 1. Run:
-   cd "/mnt/c/Users/sadgi/OneDrive/Desktop/CN Project/sdn_iot_security"
+   cd "/mnt/c/Users/user_name/OneDrive/Desktop/CN Project/sdn_iot_security"
 
 C) Start controller (Terminal 1)
 1. Run:
@@ -31,18 +31,18 @@ D) Start Mininet topology (Terminal 2)
 
 E) Create secure stego payload (Terminal 3)
 1. Run:
-   cd "/mnt/c/Users/sadgi/OneDrive/Desktop/CN Project/sdn_iot_security"
+   cd "/mnt/c/Users/user_name/OneDrive/Desktop/CN Project/sdn_iot_security"
    python3 sender.py --message "WSL SDN test payload" --audio-in input.wav --audio-out stego_sdn.wav
 
 F) Transfer file over SDN path
 1. In Mininet CLI start receiver on h2:
-   h2 bash -lc 'cd /mnt/c/Users/sadgi/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 udp_file_receiver.py --bind-host 0.0.0.0 --port 6000 --out /tmp/received_stego_sdn.wav --timeout 30 --metrics-file /tmp/transport_metrics.csv'
+   h2 bash -lc 'cd /mnt/c/Users/user_name/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 udp_file_receiver.py --bind-host 0.0.0.0 --port 6000 --out /tmp/received_stego_sdn.wav --timeout 30 --metrics-file /tmp/transport_metrics.csv'
 2. In Mininet CLI send from h1:
-   h1 bash -lc 'cd /mnt/c/Users/sadgi/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 udp_file_sender.py --host 10.0.0.2 --port 6000 --file stego_sdn.wav --chunk-size 1024 --metrics-file /tmp/transport_metrics.csv'
+   h1 bash -lc 'cd /mnt/c/Users/user_name/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 udp_file_sender.py --host 10.0.0.2 --port 6000 --file stego_sdn.wav --chunk-size 1024 --metrics-file /tmp/transport_metrics.csv'
 
 G) Decrypt on destination host
 1. In Mininet CLI run on h2:
-   h2 bash -lc 'cd /mnt/c/Users/sadgi/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 receiver.py --stego-file /tmp/received_stego_sdn.wav --key-file shared_key.bin --replay-state /tmp/replay_state_sdn.json'
+   h2 bash -lc 'cd /mnt/c/Users/user_name/OneDrive/Desktop/CN\ Project/sdn_iot_security; python3 receiver.py --stego-file /tmp/received_stego_sdn.wav --key-file shared_key.bin --replay-state /tmp/replay_state_sdn.json'
 
 H) Collect report artifacts
 1. In Mininet CLI on h2:
