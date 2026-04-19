@@ -5,6 +5,7 @@ try:
     from ryu.ofproto import ofproto_v1_3
     from ryu.lib.packet import packet, ethernet
     from ryu.lib import hub
+    APP_BASE_CLASS = app_manager.RyuApp
 except ImportError:
     # Ubuntu often ships OS-Ken instead of Ryu. Keep one controller source
     # compatible with both module namespaces.
@@ -14,9 +15,10 @@ except ImportError:
     from os_ken.ofproto import ofproto_v1_3
     from os_ken.lib.packet import packet, ethernet
     from os_ken.lib import hub
+    APP_BASE_CLASS = app_manager.OSKenApp
 
 
-class MultipathController(app_manager.RyuApp):
+class MultipathController(APP_BASE_CLASS):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
 
     def __init__(self, *args, **kwargs):
