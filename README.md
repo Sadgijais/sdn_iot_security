@@ -22,7 +22,7 @@ This repository contains a secure IoT communication prototype that combines cryp
 ### 1) Open the project directory
 
 ```powershell
-cd "C:\Users\username\OneDrive\Desktop\CN Project"
+cd "C:\Users\user_name\OneDrive\Desktop\CN Project"
 ```
 
 ### 2) Activate the virtual environment
