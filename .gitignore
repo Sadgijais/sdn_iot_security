@@ -20,6 +20,15 @@ build/
 dist/
 *.egg-info/
 
+# Project runtime outputs
+__pycache__/
+*.pyc
+shared_key.bin
+replay_state*.json
+stego*.wav
+received_stego*.wav
+transport_metrics*.csv
+
 # OS/editor noise
 .DS_Store
 Thumbs.db

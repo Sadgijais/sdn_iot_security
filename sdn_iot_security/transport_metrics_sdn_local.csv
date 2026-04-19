@@ -1,3 +1,0 @@
-timestamp,role,status,message_id,file_path,bytes,chunks,packets,elapsed_s,throughput_mbps,note
-1776499457,receiver,ok,2981378644,received_stego_sdn_local.wav,176444,173,176,12.084305,0.116809,
-1776499457,sender,ok,2981378644,stego_sdn.wav,176444,173,176,1.664180,0.848197,
