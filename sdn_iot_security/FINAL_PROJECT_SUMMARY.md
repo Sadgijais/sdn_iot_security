@@ -24,10 +24,30 @@ What was implemented
 - Stego WAV files are split into UDP chunks.
 - A manifest packet describes file size, chunk count, and SHA-256 digest.
 - Receiver reassembles chunks and verifies integrity before saving.
+- Reliability control channel added:
+	- Receiver sends NACK packets for missing chunk indices.
+	- Sender retransmits only missing chunks.
+	- Receiver sends completion ACK after digest verification.
 
 6. Metrics and evaluation
 - Sender and receiver write timing and throughput to CSV.
 - This can be used for report graphs and comparison tables.
+- Reliability counters are now included in metric notes:
+	- sender: completion_ack, nack_packets, resent_chunks, simulated_drops
+	- receiver: nacks_sent
+
+8. Reliability demo support
+- Sender has optional loss simulation flags to intentionally skip first-pass chunks.
+- This makes NACK and retransmission behavior reproducible for presentations.
+- Deterministic mode added using explicit dropped chunk indices (`--drop-indices`).
+- This gives consistent retransmission screenshots and metrics between runs.
+
+9. Metrics visualization
+- Added `plot_transport_metrics.py` to summarize runs and generate a PNG chart from CSV.
+
+10. Automated experiment runner
+- Added `run_reliability_experiment.py` to execute multi-run tests automatically.
+- Produces a per-run CSV (`experiment_results.csv`) and prints aggregate reliability summary.
 
 7. SDN setup
 - Mininet topology file is ready.

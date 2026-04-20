@@ -3,6 +3,7 @@ import struct
 
 MANIFEST_MAGIC = b"STGM"
 DATA_MAGIC = b"STGD"
+CONTROL_MAGIC = b"STGC"
 VERSION = 1
 
 MANIFEST_FORMAT = "!4sBIIQ32s"
@@ -11,9 +12,68 @@ MANIFEST_SIZE = struct.calcsize(MANIFEST_FORMAT)
 DATA_HEADER_FORMAT = "!4sBIIIH"
 DATA_HEADER_SIZE = struct.calcsize(DATA_HEADER_FORMAT)
 
+CONTROL_HEADER_FORMAT = "!4sBIBH"
+CONTROL_HEADER_SIZE = struct.calcsize(CONTROL_HEADER_FORMAT)
+
+CONTROL_TYPE_NACK = 1
+CONTROL_TYPE_COMPLETE = 2
+
 
 class TransportError(Exception):
     pass
+
+
+def build_control_packet(message_id, control_type, chunk_indices=None):
+    if chunk_indices is None:
+        chunk_indices = []
+
+    count = len(chunk_indices)
+    header = struct.pack(
+        CONTROL_HEADER_FORMAT,
+        CONTROL_MAGIC,
+        VERSION,
+        message_id,
+        control_type,
+        count,
+    )
+
+    if count == 0:
+        return header
+
+    return header + b"".join(struct.pack("!I", idx) for idx in chunk_indices)
+
+
+def parse_control_packet(packet):
+    if len(packet) < CONTROL_HEADER_SIZE:
+        raise TransportError("Control packet too short")
+
+    header = packet[:CONTROL_HEADER_SIZE]
+    payload = packet[CONTROL_HEADER_SIZE:]
+
+    magic, version, message_id, control_type, count = struct.unpack(CONTROL_HEADER_FORMAT, header)
+
+    if magic != CONTROL_MAGIC:
+        raise TransportError("Invalid control magic")
+    if version != VERSION:
+        raise TransportError("Unsupported transport version")
+
+    expected_payload_size = count * 4
+    if len(payload) != expected_payload_size:
+        raise TransportError("Control packet payload size mismatch")
+
+    if control_type not in (CONTROL_TYPE_NACK, CONTROL_TYPE_COMPLETE):
+        raise TransportError("Unsupported control packet type")
+
+    indices = []
+    if count > 0:
+        for offset in range(0, expected_payload_size, 4):
+            indices.append(struct.unpack("!I", payload[offset : offset + 4])[0])
+
+    return {
+        "message_id": message_id,
+        "control_type": control_type,
+        "chunk_indices": indices,
+    }
 
 
 def chunk_bytes(data, chunk_size):

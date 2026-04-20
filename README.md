@@ -17,6 +17,12 @@ This repository contains a secure IoT communication prototype that combines cryp
 - `sdn_iot_security/`: main project source and runbooks
 - `.gitignore`: repository-level ignore rules
 
+## Beginner Entry Point
+
+If you are new to the project, start with:
+
+- `sdn_iot_security/START_HERE_GUIDE.md`
+
 ## Quick Start
 
 ### 1) Open the project directory
@@ -44,6 +50,82 @@ python main.py
 - `udp_file_sender.py` and `udp_file_receiver.py`: UDP transport for stego files
 - `sdn_topology.py`: Mininet topology
 - `ryu_multipath_controller.py`: SDN controller logic (Ryu/OS-Ken compatible)
+
+## Reliable UDP Transfer (New)
+
+The UDP file transport now includes a control channel for reliability:
+
+- Receiver sends `NACK` packets listing missing chunk indices.
+- Sender retransmits only requested missing chunks.
+- Receiver sends `COMPLETE` ACK after digest verification.
+
+Example local run:
+
+```powershell
+cd sdn_iot_security
+
+# Terminal 1
+python udp_file_receiver.py --port 6000 --out received_stego.wav --timeout 30 --nack-interval-ms 200
+
+# Terminal 2
+python udp_file_sender.py --host 127.0.0.1 --port 6000 --file stego.wav --control-timeout 15
+```
+
+### Forced Loss Demo (Shows Retransmission)
+
+Use sender-side loss simulation to force NACK and resend behavior:
+
+```powershell
+cd sdn_iot_security
+
+# Terminal 1
+python udp_file_receiver.py --port 6000 --out received_stego.wav --timeout 30 --nack-interval-ms 100
+
+# Terminal 2
+python udp_file_sender.py --host 127.0.0.1 --port 6000 --file stego.wav --drop-every 10 --control-timeout 15
+```
+
+Expected sender output includes non-zero `simulated_drops` and `resent` values.
+
+### Deterministic Loss Demo (Repeatable Screenshots)
+
+Use fixed chunk indices for consistent retransmission behavior across runs:
+
+```powershell
+cd sdn_iot_security
+
+# Terminal 1
+python udp_file_receiver.py --port 6000 --out received_stego.wav --timeout 30 --nack-interval-ms 100
+
+# Terminal 2
+python udp_file_sender.py --host 127.0.0.1 --port 6000 --file stego.wav --drop-indices 3,7,11,19 --control-timeout 15
+```
+
+### Metrics Plotting
+
+After one or more runs, generate a summary and plot from `transport_metrics.csv`:
+
+```powershell
+cd sdn_iot_security
+python plot_transport_metrics.py --metrics transport_metrics.csv --out transport_metrics_plot.png
+```
+
+If Matplotlib is missing, install it:
+
+```powershell
+pip install matplotlib
+```
+
+### Automated Reliability Experiment (Multi-run)
+
+Run repeatable experiments and export a per-run results table:
+
+```powershell
+cd sdn_iot_security
+python run_reliability_experiment.py --runs 5 --drop-indices 3,7,11,19 --results experiment_results.csv
+```
+
+This writes `experiment_results.csv` and prints a summary including completion ACK count, total resent chunks, and average throughput.
 
 ## SDN Demo Notes
 
